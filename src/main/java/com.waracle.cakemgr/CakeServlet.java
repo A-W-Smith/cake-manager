@@ -43,7 +43,7 @@ public class CakeServlet extends HttpServlet {
             }
 
             JsonToken nextToken = parser.nextToken();
-            while(nextToken == JsonToken.START_OBJECT) {
+            while (nextToken == JsonToken.START_OBJECT) {
                 System.out.println("creating cake entity");
 
                 CakeEntity cakeEntity = new CakeEntity();
