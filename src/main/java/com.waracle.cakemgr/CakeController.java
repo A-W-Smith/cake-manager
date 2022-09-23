@@ -15,15 +15,9 @@ import java.util.List;
 @Slf4j
 @RestController
 public class CakeController {
-  @GetMapping()
-  public ResponseEntity<String> getCakes() {
-    log.info("Get all cakes endpoint called");
-    return ResponseEntity.ok("All cakes in human readable format");
-  }
-
   @GetMapping(path = "/cakes", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<Cake>> getCakesJson() {
-    log.info("Get all cakes JSON endpoint called");
+  public ResponseEntity<List<Cake>> getAllCakes() {
+    log.info("Get all cakes endpoint called");
     return ResponseEntity.ok(new ArrayList<>());
   }
 

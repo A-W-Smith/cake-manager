@@ -1,30 +1,33 @@
 package com.waracle.cakemgr;
 
-import io.restassured.RestAssured;
-import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.net.URI;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-// TODO: Find out why this wont run without application first running
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HappyPathTest {
-  List<Cake> expectedCakes;
+  @Autowired private TestRestTemplate restTemplate;
+
+  Map<String, Cake> expectedCakes;
 
   @Before
   public void setup() {
-    expectedCakes = new ArrayList<>();
+    expectedCakes = new HashMap<>();
     Cake lemonCheesecake =
         Cake.builder()
             .title("Lemon cheesecake")
@@ -58,29 +61,17 @@ public class HappyPathTest {
             .description("a yearly treat")
             .image("http://cornandco.com/wp-content/uploads/2014/05/birthday-cake-popcorn.jpg")
             .build();
-    expectedCakes.add(victoriaSponge);
-    expectedCakes.add(carrotCake);
-    expectedCakes.add(bananaCake);
-    expectedCakes.add(birthdayCake);
-    expectedCakes.add(lemonCheesecake);
+    expectedCakes.put(victoriaSponge.getTitle(), victoriaSponge);
+    expectedCakes.put(carrotCake.getTitle(), carrotCake);
+    expectedCakes.put(bananaCake.getTitle(), bananaCake);
+    expectedCakes.put(birthdayCake.getTitle(), birthdayCake);
+    expectedCakes.put(lemonCheesecake.getTitle(), lemonCheesecake);
   }
 
   @Test
-  public void testGetCakesHumanReadable() {
-    Response response = RestAssured.get("/");
-    assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-    // TODO: test response object as expected
-  }
-
-  @Test
-  public void testGetCakesJson() {
-    Response response = RestAssured.get("/cakes");
-    assertEquals(HttpStatus.OK.value(), response.getStatusCode());
-    assertEquals(expectedCakes, getBody(response));
-  }
-
-  private List<Cake> getBody(Response response) {
-    return Arrays.asList(response.getBody().as(Cake[].class));
+  public void testGetCakes() {
+    ResponseEntity<Cake[]> response = sendGetRequest();
+    assertEquals(getExpectedCakes(), getBody(response));
   }
 
   @Test
@@ -92,19 +83,13 @@ public class HappyPathTest {
             .image(
                 "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/easy_chocolate_cake-b62f92c.jpg?resize=960,872?quality=90&webp=true&resize=300,272")
             .build();
-    expectedCakes.add(chocolateCake);
-    Response putResponse =
-        RestAssured.given()
-            .body(chocolateCake)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .put("/cakes");
+    expectedCakes.put(chocolateCake.getTitle(), chocolateCake);
+    ResponseEntity<String> putResponse = sendPutRequest(chocolateCake);
+    assertEquals(HttpStatus.OK, putResponse.getStatusCode());
 
-    assertEquals(HttpStatus.OK.value(), putResponse.getStatusCode());
-    assertEquals("Successfully added new cake: Chocolate Cake", putResponse.asString());
-
-    Response getResponse = RestAssured.get("/cakes");
-    assertEquals(HttpStatus.OK.value(), getResponse.getStatusCode());
-    assertEquals(expectedCakes, getBody(getResponse));
+    ResponseEntity<Cake[]> getResponse = sendGetRequest();
+    assertEquals(HttpStatus.OK, getResponse.getStatusCode());
+    assertEquals(getExpectedCakes(), getBody(getResponse));
   }
 
   @Test
@@ -116,21 +101,32 @@ public class HappyPathTest {
             .image(
                 "https://s3-eu-west-1.amazonaws.com/s3.mediafileserver.co.uk/carnation/WebFiles/RecipeImages/lemoncheesecake_lg.jpg")
             .build();
+    expectedCakes.put(lemonCheesecake.getTitle(), lemonCheesecake);
 
-    // TODO find cleaner way to update existing content
-    expectedCakes.remove(expectedCakes.get(expectedCakes.size() - 1));
-    expectedCakes.add(lemonCheesecake);
-    Response putResponse =
-        RestAssured.given()
-            .body(lemonCheesecake)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .put("/cakes");
+    ResponseEntity<String> putResponse = sendPutRequest(lemonCheesecake);
+    assertEquals(HttpStatus.OK, putResponse.getStatusCode());
 
-    assertEquals(HttpStatus.OK.value(), putResponse.getStatusCode());
-    assertEquals("Successfully added new cake: Lemon cheesecake", putResponse.asString());
+    ResponseEntity<Cake[]> getResponse = sendGetRequest();
+    assertEquals(HttpStatus.OK, getResponse.getStatusCode());
+    assertEquals(getExpectedCakes(), getBody(getResponse));
+  }
 
-    Response getResponse = RestAssured.get("/cakes");
-    assertEquals(HttpStatus.OK.value(), getResponse.getStatusCode());
-    assertEquals(expectedCakes, getBody(getResponse));
+  private ResponseEntity<Cake[]> sendGetRequest() {
+    return restTemplate.getForEntity(URI.create("/cakes"), Cake[].class);
+  }
+
+  private ResponseEntity<String> sendPutRequest(Cake requestCake) {
+    return restTemplate.exchange(
+        URI.create("/cakes"), HttpMethod.PUT, new HttpEntity<>(requestCake), String.class);
+  }
+
+  private static List<Cake> getBody(ResponseEntity<Cake[]> response) {
+    Cake[] body = response.getBody();
+    assertNotNull(body);
+    return Arrays.asList(body);
+  }
+
+  private List<Cake> getExpectedCakes() {
+    return new ArrayList<>(expectedCakes.values());
   }
 }
