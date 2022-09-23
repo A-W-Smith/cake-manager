@@ -1,5 +1,6 @@
 package com.waracle.cakemgr;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,11 @@ import java.util.List;
 @Slf4j
 @RestController
 public class CakeController {
-  private CakeManager cakeManager;
+  private final CakeManager cakeManager;
 
   @Autowired
-  public CakeController(CakeManager cakeManager) {
+  public CakeController(@NonNull CakeManager cakeManager) {
     this.cakeManager = cakeManager;
-    // TODO: Consider better place to initialise database
-    cakeManager.initialiseDatabase();
   }
 
   @GetMapping(path = "/cakes", produces = MediaType.APPLICATION_JSON_VALUE)

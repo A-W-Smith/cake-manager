@@ -15,7 +15,4 @@ public interface CakeManager {
    * @return All cakes from the database
    */
   List<Cake> getAllCakes();
-
-  /** Loads all data into the in-memory database */
-  void initialiseDatabase();
 }
