@@ -9,7 +9,7 @@ public interface CakeManager {
    *
    * @param cake cake to be added
    */
-  void addNewCake(Cake cake);
+  void addNewCake(Cake cake) throws CakeExistsException;
 
   /**
    * @return All cakes from the database

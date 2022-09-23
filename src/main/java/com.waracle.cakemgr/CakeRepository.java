@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository;
 
 /** Handles cake database access */
 @Repository
-public interface CakeRepository extends JpaRepository<CakeEntity, Long> {}
+public interface CakeRepository extends JpaRepository<CakeEntity, Long> {
+  boolean existsByTitle(String title);
+}

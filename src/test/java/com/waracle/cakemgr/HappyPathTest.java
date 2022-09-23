@@ -13,21 +13,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HappyPathTest {
   @Autowired private TestRestTemplate restTemplate;
 
-  Map<String, Cake> expectedCakes;
+  List<Cake> expectedCakes;
 
   @Before
   public void setup() {
-    expectedCakes = new HashMap<>();
+    expectedCakes = new ArrayList<>();
     Cake lemonCheesecake =
         Cake.builder()
             .title("Lemon cheesecake")
@@ -61,21 +62,22 @@ public class HappyPathTest {
             .description("a yearly treat")
             .image("http://cornandco.com/wp-content/uploads/2014/05/birthday-cake-popcorn.jpg")
             .build();
-    expectedCakes.put(victoriaSponge.getTitle(), victoriaSponge);
-    expectedCakes.put(carrotCake.getTitle(), carrotCake);
-    expectedCakes.put(bananaCake.getTitle(), bananaCake);
-    expectedCakes.put(birthdayCake.getTitle(), birthdayCake);
-    expectedCakes.put(lemonCheesecake.getTitle(), lemonCheesecake);
+    expectedCakes.add(victoriaSponge);
+    expectedCakes.add(carrotCake);
+    expectedCakes.add(bananaCake);
+    expectedCakes.add(birthdayCake);
+    expectedCakes.add(lemonCheesecake);
   }
 
   @Test
   public void testGetCakes() {
     ResponseEntity<Cake[]> response = sendGetRequest();
-    assertEquals(getExpectedCakes(), getBody(response));
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(getBody(response)).containsExactlyInAnyOrderElementsOf(expectedCakes);
   }
 
   @Test
-  public void testPutNewCake() {
+  public void testPostNewCake() {
     Cake chocolateCake =
         Cake.builder()
             .title("Chocolate Cake")
@@ -83,50 +85,27 @@ public class HappyPathTest {
             .image(
                 "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/easy_chocolate_cake-b62f92c.jpg?resize=960,872?quality=90&webp=true&resize=300,272")
             .build();
-    expectedCakes.put(chocolateCake.getTitle(), chocolateCake);
-    ResponseEntity<String> putResponse = sendPutRequest(chocolateCake);
-    assertEquals(HttpStatus.OK, putResponse.getStatusCode());
+    expectedCakes.add(chocolateCake);
+    ResponseEntity<String> PostResponse = sendPostRequest(chocolateCake);
+    assertThat(PostResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
 
     ResponseEntity<Cake[]> getResponse = sendGetRequest();
-    assertEquals(HttpStatus.OK, getResponse.getStatusCode());
-    assertEquals(getExpectedCakes(), getBody(getResponse));
-  }
-
-  @Test
-  public void testPutExistingCake() {
-    Cake lemonCheesecake =
-        Cake.builder()
-            .title("Lemon cheesecake")
-            .description("A lemon cake made of cheese")
-            .image(
-                "https://s3-eu-west-1.amazonaws.com/s3.mediafileserver.co.uk/carnation/WebFiles/RecipeImages/lemoncheesecake_lg.jpg")
-            .build();
-    expectedCakes.put(lemonCheesecake.getTitle(), lemonCheesecake);
-
-    ResponseEntity<String> putResponse = sendPutRequest(lemonCheesecake);
-    assertEquals(HttpStatus.OK, putResponse.getStatusCode());
-
-    ResponseEntity<Cake[]> getResponse = sendGetRequest();
-    assertEquals(HttpStatus.OK, getResponse.getStatusCode());
-    assertEquals(getExpectedCakes(), getBody(getResponse));
+    assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(getBody(getResponse)).containsExactlyInAnyOrderElementsOf(expectedCakes);
   }
 
   private ResponseEntity<Cake[]> sendGetRequest() {
     return restTemplate.getForEntity(URI.create("/cakes"), Cake[].class);
   }
 
-  private ResponseEntity<String> sendPutRequest(Cake requestCake) {
+  private ResponseEntity<String> sendPostRequest(Cake requestCake) {
     return restTemplate.exchange(
-        URI.create("/cakes"), HttpMethod.PUT, new HttpEntity<>(requestCake), String.class);
+        URI.create("/cakes"), HttpMethod.POST, new HttpEntity<>(requestCake), String.class);
   }
 
-  private static List<Cake> getBody(ResponseEntity<Cake[]> response) {
+  private List<Cake> getBody(ResponseEntity<Cake[]> response) {
     Cake[] body = response.getBody();
-    assertNotNull(body);
+    assertThat(body).isNotNull();
     return Arrays.asList(body);
-  }
-
-  private List<Cake> getExpectedCakes() {
-    return new ArrayList<>(expectedCakes.values());
   }
 }

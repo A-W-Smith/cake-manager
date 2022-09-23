@@ -1,6 +1,5 @@
 package com.waracle.cakemgr;
 
-import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,9 +18,6 @@ import javax.persistence.Id;
 public class CakeEntity {
   @Id @GeneratedValue private Long id;
   private String title;
-
-  @SerializedName("desc")
   private String description;
-
   private String image;
 }

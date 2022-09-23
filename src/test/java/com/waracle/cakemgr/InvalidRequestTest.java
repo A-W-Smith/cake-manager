@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URI;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -21,8 +21,8 @@ public class InvalidRequestTest {
   @Autowired private TestRestTemplate restTemplate;
 
   @Test
-  public void testPutNewCake_noTitle() {
-    testPutNewCake(
+  public void testPostNewCake_noTitle() {
+    testPostNewCake(
         Cake.builder()
             .description("A super chocolatey cake")
             .image(
@@ -30,8 +30,24 @@ public class InvalidRequestTest {
   }
 
   @Test
-  public void testPutNewCake_noDescription() {
-    testPutNewCake(
+  public void testPostExistingCake() {
+    Cake lemonCheesecake =
+        Cake.builder()
+            .title("Lemon cheesecake")
+            .description("A lemon cake made of cheese")
+            .image(
+                "https://s3-eu-west-1.amazonaws.com/s3.mediafileserver.co.uk/carnation/WebFiles/RecipeImages/lemoncheesecake_lg.jpg")
+            .build();
+
+    ResponseEntity<String> PostResponse = sendPostRequest(lemonCheesecake);
+    assertThat(PostResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    assertThat(PostResponse.getBody())
+        .isEqualTo("Cake with title \"Lemon cheesecake\" already exists.");
+  }
+
+  @Test
+  public void testPostNewCake_noDescription() {
+    testPostNewCake(
         Cake.builder()
             .title("Chocolate cake")
             .image(
@@ -39,19 +55,19 @@ public class InvalidRequestTest {
   }
 
   @Test
-  public void testPutNewCake_noImage() {
-    testPutNewCake(Cake.builder().title("Chocolate cake").description("A super chocolatey cake"));
+  public void testPostNewCake_noImage() {
+    testPostNewCake(Cake.builder().title("Chocolate cake").description("A super chocolatey cake"));
   }
 
-  private void testPutNewCake(Cake.CakeBuilder description) {
-    ResponseEntity<String> response = sendPutRequest(description.build());
+  private void testPostNewCake(Cake.CakeBuilder description) {
+    ResponseEntity<String> response = sendPostRequest(description.build());
 
-    assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-    assertEquals("Cake must have title, description and image", response.getBody());
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    assertThat(response.getBody()).isEqualTo("Cake must have title, description and image");
   }
 
-  private ResponseEntity<String> sendPutRequest(Cake requestCake) {
+  private ResponseEntity<String> sendPostRequest(Cake requestCake) {
     return restTemplate.exchange(
-        URI.create("/cakes"), HttpMethod.PUT, new HttpEntity<>(requestCake), String.class);
+        URI.create("/cakes"), HttpMethod.POST, new HttpEntity<>(requestCake), String.class);
   }
 }
