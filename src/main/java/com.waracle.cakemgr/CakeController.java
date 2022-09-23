@@ -21,6 +21,8 @@ public class CakeController {
   @Autowired
   public CakeController(CakeManager cakeManager) {
     this.cakeManager = cakeManager;
+    // TODO: Consider better place to initialise database
+    cakeManager.initialiseDatabase();
   }
 
   @GetMapping(path = "/cakes", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,8 +49,8 @@ public class CakeController {
 
   public boolean isInvalidCake(Cake cake) {
     return StringUtils.isEmpty(cake.getTitle())
-            || StringUtils.isEmpty(cake.getDescription())
-            || StringUtils.isEmpty(cake.getImage());
+        || StringUtils.isEmpty(cake.getDescription())
+        || StringUtils.isEmpty(cake.getImage());
   }
 
   private ResponseEntity<String> getBadRequestResponse() {
