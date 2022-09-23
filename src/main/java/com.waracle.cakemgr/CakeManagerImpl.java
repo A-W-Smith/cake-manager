@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CakeManagerImpl implements CakeManager {
-  private final CakeRepository cakeRepository;
+  @NonNull private final CakeRepository cakeRepository;
 
   @Autowired
   public CakeManagerImpl(@NonNull CakeRepository cakeRepository) {
