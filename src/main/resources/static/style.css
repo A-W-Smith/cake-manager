@@ -6,7 +6,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-size: cover;
+  background-color: #ffffcc;
   font-family: sans-serif;
 }
 #cakes {
