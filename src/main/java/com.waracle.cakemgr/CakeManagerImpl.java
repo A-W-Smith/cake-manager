@@ -18,6 +18,7 @@ public class CakeManagerImpl implements CakeManager {
 
   @Override
   public void addNewCake(Cake cake) throws CakeExistsException {
+    // TODO case insensitive check
     if (cakeRepository.existsByTitle(cake.getTitle())) {
       throw new CakeExistsException();
     } else {

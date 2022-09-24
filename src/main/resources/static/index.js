@@ -1,3 +1,4 @@
+// Call API and load in cakes
 fetch("http://localhost:8080/cakes")
     .then((response) => {
         if (response.ok) {
@@ -9,6 +10,7 @@ fetch("http://localhost:8080/cakes")
     .then(data => displayCakes(data))
     .catch(error => console.error("Failed to retrieve cakes:", error));
 
+// Handle request on button click to add new cake
 const button = document.getElementById("addCakeBtn");
 button.addEventListener("click", async _ => {
     data = {
@@ -23,10 +25,11 @@ button.addEventListener("click", async _ => {
             },
             body: JSON.stringify(data)
         })
-        .then(data => refreshPage(data))
+        .then(response => handlePostResponse(response))
         .catch(error => console.error("Failed to retrieve cakes:", error));
 });
 
+// Add cakes to div
 function displayCakes(data) {
     for (const cake of data) {
         const cakesDiv = document.getElementById("cakes");
@@ -47,9 +50,14 @@ function displayCakes(data) {
     }
 }
 
-function refreshPage(data) {
-    document.getElementById("cakeForm").reset();
-    window.location.reload()
+// If cake failed to add then display error, else refresh page with new cake
+function handlePostResponse(response) {
+    if (!response.ok) {
+        response.text().then(text => alert(text))
+    } else {
+        document.getElementById("cakeForm").reset();
+        window.location.reload()
+    }
 }
 
 function getValue(inputField) {
