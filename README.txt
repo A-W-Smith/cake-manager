@@ -44,6 +44,13 @@ The project loads some pre-defined data in to an in-memory database, which is ac
 no need to create persistent storage.
 
 
+New Project Info
+=====================
+The project can be run as a Spring boot application by executing the following command:
+
+`mvn spring-boot:run`
+
+
 Submission
 ==========
 

@@ -10,8 +10,12 @@ body {
   font-family: sans-serif;
 }
 #cakes {
-  max-width: 450px;
+  width: 25%;
+  overflow: hidden;
   text-align: center;
+  height:95%;
+  overflow:scroll;
+  overflow-x:hidden;
   padding: 30px 30px 12px 30px;
   color: #fff;
   background-color: #7766d7;
@@ -23,15 +27,25 @@ body {
   text-transform: uppercase;
 }
 #cakes img {
-  max-width: 200px;
+  max-width: 300px;
 }
 #addcake {
-  max-width: 200px;
-  text-align: center;
+  max-width: 400px;
   padding: 30px 30px 12px 30px;
   color: #fff;
   background-color: #7766d7;
   border: 4px solid #9387f2;
   border-radius: 5px;
   margin-left: 80px;
+}
+
+form{
+  display:flex;
+  flex-direction:column;
+  align-items:left;
+  justify-items:left
+}
+
+input {
+  margin-bottom: 15px;
 }
