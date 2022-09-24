@@ -6,11 +6,26 @@ fetch("http://localhost:8080/cakes")
             throw new Error("Failed to retrieve cakes");
         }
     })
-    .then(data => {
-        console.log(data);
-        displayCakes(data)
-    })
-    .catch((error) => console.error("Failed to retrieve cakes:", error));
+    .then(data => displayCakes(data))
+    .catch(error => console.error("Failed to retrieve cakes:", error));
+
+const button = document.getElementById("addCakeBtn");
+button.addEventListener("click", async _ => {
+    data = {
+        "title": getValue("titleInput"),
+        "description": getValue("descriptionInput"),
+        "image": getValue("imageInput")
+    }
+    fetch("http://localhost:8080/cakes", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(data => refreshPage(data))
+        .catch(error => console.error("Failed to retrieve cakes:", error));
+});
 
 function displayCakes(data) {
     for (const cake of data) {
@@ -30,4 +45,13 @@ function displayCakes(data) {
         cakeImage.src = cake.image;
         cakesDiv.appendChild(cakeImage);
     }
+}
+
+function refreshPage(data) {
+    document.getElementById("cakeForm").reset();
+    window.location.reload()
+}
+
+function getValue(inputField) {
+    return document.getElementById(inputField).value
 }
