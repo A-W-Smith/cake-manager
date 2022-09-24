@@ -50,6 +50,16 @@ The project can be run as a Spring boot application by executing the following c
 
 `mvn spring-boot:run`
 
+To run the project as a kubernetes instance, execute the following command:
+
+`kubectl apply -f deployment.yaml`
+
+This will pull the latest image from the Docker Hub.
+
+To access the locally running Kubernetes instance, run the following:
+
+`kubectl port-forward svc/cakemanager 8080:8080`
+
 
 Submission
 ==========
