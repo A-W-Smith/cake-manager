@@ -1,4 +1,4 @@
-package com.waracle.cakemgr;
+package com.waracle.cakemgr.database;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

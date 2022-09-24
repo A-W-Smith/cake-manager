@@ -1,4 +1,6 @@
-package com.waracle.cakemgr;
+package com.waracle.cakemgr.manager;
+
+import com.waracle.cakemgr.endpoint.Cake;
 
 import java.util.List;
 

@@ -1,7 +1,8 @@
-package com.waracle.cakemgr;
+package com.waracle.cakemgr.database;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.waracle.cakemgr.endpoint.Cake;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

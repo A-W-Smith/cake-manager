@@ -1,5 +1,6 @@
 package com.waracle.cakemgr;
 
+import com.waracle.cakemgr.endpoint.Cake;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/** Tests the standard expected behaviour */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HappyPathTest {

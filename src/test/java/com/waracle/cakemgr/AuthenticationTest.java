@@ -1,5 +1,6 @@
 package com.waracle.cakemgr;
 
+import com.waracle.cakemgr.endpoint.Cake;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

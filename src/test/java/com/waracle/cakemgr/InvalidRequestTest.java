@@ -1,5 +1,6 @@
 package com.waracle.cakemgr;
 
+import com.waracle.cakemgr.endpoint.Cake;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/** Tests invalid requests made to the endpoint */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class InvalidRequestTest {

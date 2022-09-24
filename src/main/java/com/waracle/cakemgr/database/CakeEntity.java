@@ -1,4 +1,4 @@
-package com.waracle.cakemgr;
+package com.waracle.cakemgr.database;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

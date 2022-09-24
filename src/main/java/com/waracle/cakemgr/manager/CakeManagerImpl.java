@@ -1,5 +1,8 @@
-package com.waracle.cakemgr;
+package com.waracle.cakemgr.manager;
 
+import com.waracle.cakemgr.database.CakeEntity;
+import com.waracle.cakemgr.database.CakeRepository;
+import com.waracle.cakemgr.endpoint.Cake;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

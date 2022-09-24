@@ -1,4 +1,4 @@
-package com.waracle.cakemgr;
+package com.waracle.cakemgr.endpoint;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;

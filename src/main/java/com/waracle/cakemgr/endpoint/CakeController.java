@@ -1,5 +1,7 @@
-package com.waracle.cakemgr;
+package com.waracle.cakemgr.endpoint;
 
+import com.waracle.cakemgr.manager.CakeExistsException;
+import com.waracle.cakemgr.manager.CakeManager;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.plexus.util.StringUtils;
