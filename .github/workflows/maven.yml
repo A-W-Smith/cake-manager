@@ -22,9 +22,6 @@ jobs:
           cache: maven
       - name: Test with Maven
         run: mvn clean install
-  docker:
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Login to Docker Hub
