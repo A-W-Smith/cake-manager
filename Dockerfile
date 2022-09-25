@@ -5,5 +5,6 @@ RUN mvn clean install
 
 FROM openjdk:8-jdk-alpine
 ARG JAR_FILE=/usr/src/app/target/*.war
+ADD . /src/main/resources/static
 COPY --from=maven ${JAR_FILE} app.war
 ENTRYPOINT ["java","-jar","/app.war"]
