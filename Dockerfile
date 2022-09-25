@@ -1,3 +1,4 @@
 FROM openjdk:8-jdk-alpine
-COPY ./target/cake-manager.war cake-manager.war
-ENTRYPOINT ["java","-jar","/cake-manager.war"]
+ARG JAR_FILE=/usr/src/app/target/*.war
+COPY --from=maven ${JAR_FILE} app.war
+ENTRYPOINT ["java","-jar","/app.war"]
