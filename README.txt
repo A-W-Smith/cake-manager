@@ -60,6 +60,9 @@ To access the locally running Kubernetes instance, run the following:
 
 `kubectl port-forward svc/cakemanager 8080:8080`
 
+Can also access it as a Docker container:
+`docker run -p 8080:8080 -it aws2411/cakemanager`
+
 
 Submission
 ==========
