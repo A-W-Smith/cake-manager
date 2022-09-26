@@ -63,6 +63,13 @@ To access the locally running Kubernetes instance, run the following:
 Can also access it as a Docker container:
 `docker run -p 8080:8080 -it aws2411/cakemanager`
 
+The project features OAuth security with GitHub as sign on, to make calls inside Postman than the header X-XSRF-TOKEN is required, this can be taken from the network tab.
+
+To bypass this authentication you can run the application with following command:
+
+`mvn spring-boot:run -Dspring.profiles.active=noAuth`
+
+This profile is ran for Docker and Kubernetes deployments due to an issue.
 
 Submission
 ==========

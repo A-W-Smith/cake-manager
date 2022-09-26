@@ -1,4 +1,4 @@
-package com.waracle.cakemgr;
+package com.waracle.cakemgr.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;

@@ -14,6 +14,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URI;
@@ -22,12 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /** Tests invalid requests made to the endpoint */
 @RunWith(SpringRunner.class)
-@EnableAutoConfiguration(
-    exclude = {
-      SecurityAutoConfiguration.class,
-      ManagementWebSecurityAutoConfiguration.class,
-      OAuth2ClientAutoConfiguration.class
-    })
+@ActiveProfiles(profiles = {"noAuth"})
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class InvalidRequestTest {
   @Autowired private TestRestTemplate restTemplate;
@@ -55,6 +51,22 @@ public class InvalidRequestTest {
     assertThat(PostResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     assertThat(PostResponse.getBody())
         .isEqualTo("Cake with title \"Lemon cheesecake\" already exists.");
+  }
+
+  @Test
+  public void testPostExistingCake_caseInsensitive() {
+    Cake lemonCheesecake =
+            Cake.builder()
+                    .title("Lemon CHEESECAKE")
+                    .description("A lemon cake made of cheese")
+                    .image(
+                            "https://s3-eu-west-1.amazonaws.com/s3.mediafileserver.co.uk/carnation/WebFiles/RecipeImages/lemoncheesecake_lg.jpg")
+                    .build();
+
+    ResponseEntity<String> PostResponse = sendPostRequest(lemonCheesecake);
+    assertThat(PostResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    assertThat(PostResponse.getBody())
+            .isEqualTo("Cake with title \"Lemon CHEESECAKE\" already exists.");
   }
 
   @Test
