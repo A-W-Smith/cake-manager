@@ -6,4 +6,4 @@ RUN mvn package
 FROM openjdk:8-jdk-alpine
 ARG JAR_FILE=/usr/src/app/target/cake-manager.jar
 COPY --from=maven ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-cp","/app.jar", "com.waracle.cakemgr.Application"]
+ENTRYPOINT ["java","-Dspring.profiles.active=noAuth", "-cp","/app.jar", "com.waracle.cakemgr.Application"]
