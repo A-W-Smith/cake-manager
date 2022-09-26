@@ -21,7 +21,8 @@ button.addEventListener("click", async _ => {
     fetch("http://localhost:8080/cakes", {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
+                "X-XSRF-TOKEN": getCookie("XSRF-TOKEN")
             },
             body: JSON.stringify(data)
         })
@@ -62,4 +63,10 @@ function handlePostResponse(response) {
 
 function getValue(inputField) {
     return document.getElementById(inputField).value
+}
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
 }
