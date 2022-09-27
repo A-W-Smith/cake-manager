@@ -27,8 +27,9 @@ public class AuthenticationTest {
 
   @Test
   public void testGetNewCake_unauthenticated() {
-    ResponseEntity<Cake[]> response = sendGetRequest();
+    ResponseEntity<String> response = sendGetRequest();
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+    assertThat(response.getBody()).isEqualTo("You are not authorised.");
   }
 
   @Test
@@ -42,10 +43,11 @@ public class AuthenticationTest {
             .build();
     ResponseEntity<String> response = sendPostRequest(chocolateCake);
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+    assertThat(response.getBody()).isEqualTo("You are not authorised.");
   }
 
-  private ResponseEntity<Cake[]> sendGetRequest() {
-    return restTemplate.getForEntity(URI.create("/cakes"), Cake[].class);
+  private ResponseEntity<String> sendGetRequest() {
+    return restTemplate.getForEntity(URI.create("/cakes"), String.class);
   }
 
   private ResponseEntity<String> sendPostRequest(Cake requestCake) {
