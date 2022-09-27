@@ -1,15 +1,15 @@
 // Call API and load in cakes
 function loadCakes() {
-fetch("http://localhost:8080/cakes")
-    .then((response) => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error("Failed to retrieve cakes");
-        }
-    })
-    .then(data => displayCakes(data))
-    .catch(error => console.error("Failed to retrieve cakes:", error));
+        fetch("http://localhost:8080/cakes")
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error("Failed to retrieve cakes");
+                }
+            })
+            .then(data => displayCakes(data))
+            .catch(error => console.error("Failed to retrieve cakes:", error));
 }
 
 // Handle request on button click to add new cake

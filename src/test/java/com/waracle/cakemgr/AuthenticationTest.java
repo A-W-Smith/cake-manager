@@ -28,7 +28,7 @@ public class AuthenticationTest {
   @Test
   public void testGetNewCake_unauthenticated() {
     ResponseEntity<Cake[]> response = sendGetRequest();
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FOUND);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
   }
 
   @Test
@@ -41,7 +41,7 @@ public class AuthenticationTest {
                 "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/easy_chocolate_cake-b62f92c.jpg?resize=960,872?quality=90&webp=true&resize=300,272")
             .build();
     ResponseEntity<String> response = sendPostRequest(chocolateCake);
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FOUND);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
   }
 
   private ResponseEntity<Cake[]> sendGetRequest() {
