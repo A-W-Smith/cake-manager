@@ -11,8 +11,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 /** Configure security for all profiles apart from noAuth */
 @Configuration
 @EnableWebSecurity
-@Profile("!noAuth")
 public class SecurityAutoConfig {
+  @Profile("!noAuth")
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     return http.authorizeRequests(
@@ -26,5 +26,11 @@ public class SecurityAutoConfig {
         .oauth2Login()
         .and()
         .build();
+  }
+
+  @Profile("noAuth")
+  @Bean
+  public SecurityFilterChain noAuthSecurityFilterChain(HttpSecurity http) throws Exception {
+    return http.csrf().disable().authorizeRequests().anyRequest().permitAll().and().build();
   }
 }

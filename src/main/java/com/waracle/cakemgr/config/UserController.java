@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 import java.util.Map;
 
-/**
- * Endpoint to confirm if user is authenticated by OAuth
- */
+/** Endpoint to check if user is authenticated by OAuth */
 @RestController
 public class UserController {
   @GetMapping("/user")

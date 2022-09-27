@@ -1,22 +1,23 @@
 <html>
+
 <head>
     <title>Waracle's Wonderful Wcakes</title>
-    <link rel="stylesheet" type="text/css" href="/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/style.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js">
-    <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js">
-    </script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
     <script src="index.js" defer></script>
 </head>
+
 <body>
 <script type="text/javascript">
-    $.get("/user", function(data) {
-        $("#user").html(data.name);
-        $(".unauthenticated").hide();
-        $(".authenticated").show();
-        loadCakes();
-    });
-</script>
+        $.get("/user", function(data) {
+            $("#user").html(data.name);
+            $(".unauthenticated").hide();
+            $(".authenticated").show();
+            loadCakes();
+        });
+    </script>
 <div class="unauthenticated">
     To login with GitHub: <a href="/oauth2/authorization/github">click here</a>
 </div>
@@ -43,4 +44,5 @@
     </div>
 </div>
 </body>
+
 </html>

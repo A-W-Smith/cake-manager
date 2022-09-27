@@ -1,17 +1,3 @@
-// Call API and load in cakes
-function loadCakes() {
-        fetch("http://localhost:8080/cakes")
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error("Failed to retrieve cakes");
-                }
-            })
-            .then(data => displayCakes(data))
-            .catch(error => console.error("Failed to retrieve cakes:", error));
-}
-
 // Handle request on button click to add new cake
 const button = document.getElementById("addCakeBtn");
 button.addEventListener("click", async _ => {
@@ -31,6 +17,20 @@ button.addEventListener("click", async _ => {
         .then(response => handlePostResponse(response))
         .catch(error => console.error("Failed to retrieve cakes:", error));
 });
+
+// Call API and load in cakes
+function loadCakes() {
+    fetch("http://localhost:8080/cakes")
+        .then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error("Failed to retrieve cakes");
+            }
+        })
+        .then(data => displayCakes(data))
+        .catch(error => console.error("Failed to retrieve cakes:", error));
+}
 
 // Add cakes to div
 function displayCakes(data) {
@@ -68,7 +68,7 @@ function getValue(inputField) {
 }
 
 function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
 }

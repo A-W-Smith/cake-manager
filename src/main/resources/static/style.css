@@ -1,51 +1,58 @@
 html {
-  height: 100%;
+    height: 100%;
 }
+
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background-color: #ffffcc;
-  font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #ffffcc;
+    font-family: sans-serif;
 }
+
 .authenticated {
-  height: 100%;
-  width: 100%;
-  display: flex;
+    height: 100%;
+    width: 100%;
+    display: flex;
 }
+
 #cakes {
-  max-width: 600px;
-  flex: 1;
-  overflow: hidden;
-  text-align: center;
-  height:95%;
-  overflow:scroll;
-  overflow-x:hidden;
-  padding: 30px 30px 12px 30px;
-  color: #fff;
-  float: left;
-  background-color: #7766d7;
-  border: 4px solid #9387f2;
-  border-radius: 5px;
+    max-width: 600px;
+    flex: 1;
+    overflow: hidden;
+    text-align: center;
+    height: 95%;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding: 30px 30px 12px 30px;
+    color: #fff;
+    float: left;
+    background-color: #7766d7;
+    border: 4px solid #9387f2;
+    border-radius: 5px;
 }
+
 #cakes h3 {
-  margin: 15px 0 15px 0;
-  text-transform: uppercase;
+    margin: 15px 0 15px 0;
+    text-transform: uppercase;
 }
+
 #cakes img {
-  max-width: 300px;
+    max-width: 300px;
 }
+
 #addcake {
-  max-width: 400px;
-  padding: 30px 30px 12px 30px;
-  color: #fff;
-  background-color: #7766d7;
-  border: 4px solid #9387f2;
-  border-radius: 5px;
-  margin-left: 80px;
-  margin-top: 100px;
+    max-width: 400px;
+    padding: 30px 30px 12px 30px;
+    color: #fff;
+    background-color: #7766d7;
+    border: 4px solid #9387f2;
+    border-radius: 5px;
+    margin-left: 80px;
+    margin-top: 100px;
 }
+
 #container {
     flex: 1;
     height: 95%;
@@ -53,12 +60,12 @@ body {
 }
 
 form {
-  display:flex;
-  flex-direction:column;
-  align-items:left;
-  justify-items:left
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-items: left
 }
 
 input {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
