@@ -16,14 +16,23 @@ import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/** Tests unauthenicated requests made to the endpoint */
+/**
+ * Tests unauthenicated requests made to the endpoint. Note that these calls return FOUND as it
+ * redirects to oauth page
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AuthenticationTest {
   @Autowired private TestRestTemplate restTemplate;
 
   @Test
-  public void testPostNewCake_noTitle() {
+  public void testGetNewCake_unauthenticated() {
+    ResponseEntity<Cake[]> response = sendGetRequest();
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FOUND);
+  }
+
+  @Test
+  public void testPostNewCake_unauthenticated() {
     Cake chocolateCake =
         Cake.builder()
             .title("Chocolate Cake")
@@ -32,7 +41,11 @@ public class AuthenticationTest {
                 "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/easy_chocolate_cake-b62f92c.jpg?resize=960,872?quality=90&webp=true&resize=300,272")
             .build();
     ResponseEntity<String> response = sendPostRequest(chocolateCake);
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FOUND);
+  }
+
+  private ResponseEntity<Cake[]> sendGetRequest() {
+    return restTemplate.getForEntity(URI.create("/cakes"), Cake[].class);
   }
 
   private ResponseEntity<String> sendPostRequest(Cake requestCake) {

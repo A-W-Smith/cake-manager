@@ -5,10 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
@@ -28,12 +24,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 /** Tests the standard expected behaviour */
 @RunWith(SpringRunner.class)
 @ActiveProfiles(profiles = {"noAuth"})
-@EnableAutoConfiguration(
-    exclude = {
-      SecurityAutoConfiguration.class,
-      ManagementWebSecurityAutoConfiguration.class,
-      OAuth2ClientAutoConfiguration.class
-    })
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HappyPathTest {
   @Autowired private TestRestTemplate restTemplate;
