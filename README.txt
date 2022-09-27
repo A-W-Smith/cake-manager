@@ -69,8 +69,6 @@ To bypass this authentication you can run the application with following command
 
 `mvn spring-boot:run -Dspring.profiles.active=noAuth`
 
-This profile is ran for Docker and Kubernetes deployments due to an issue.
-
 Submission
 ==========
 
